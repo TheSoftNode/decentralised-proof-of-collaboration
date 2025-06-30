@@ -46,3 +46,19 @@
 
 ;; Data variable to keep track of contribution IDs
 (define-data-var contribution-counter uint u0)
+
+;; Initialize contract
+(define-public (initialize)
+    (begin
+        (map-set project-admins contract-owner true)
+        (ok true)
+    )
+)
+
+;; Add project admin
+(define-public (add-project-admin (admin principal))
+    (begin
+        (asserts! (is-eq tx-sender contract-owner) err-owner-only)
+        (ok (map-set project-admins admin true))
+    )
+)
